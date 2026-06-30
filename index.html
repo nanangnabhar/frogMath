@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lompat Katak Matematika</title>
     <style>
-        /* === RESET & VARIABEL === */
         :root {
             --water-color: #40E0D0;
             --water-dark: #20b2aa;
@@ -16,327 +15,53 @@
             --primary-font: 'Comic Sans MS', 'Nunito', 'Quicksand', 'Arial Rounded MT Bold', sans-serif;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
 
-        body {
-            font-family: var(--primary-font);
-            background-color: #1a1a1a;
-            color: var(--text-color);
-            overflow: hidden;
-            touch-action: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100vw;
-        }
+        body { font-family: var(--primary-font); background-color: #1a1a1a; color: var(--text-color); overflow: hidden; touch-action: none; display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; }
 
-        #game-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            max-width: 1024px;
-            max-height: 768px;
-            background: linear-gradient(to bottom, var(--sky-color) 0%, var(--water-dark) 40%, var(--water-color) 100%);
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
+        #game-container { position: relative; width: 100%; height: 100%; max-width: 1024px; max-height: 768px; background: linear-gradient(to bottom, var(--sky-color) 0%, var(--water-dark) 40%, var(--water-color) 100%); overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 
-        .water-bg {
-            position: absolute;
-            bottom: 0;
-            width: 200%;
-            height: 60%;
-            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 10%, transparent 20%);
-            background-size: 100px 100px;
-            animation: moveWater 10s linear infinite;
-            z-index: 1;
-            pointer-events: none;
-        }
+        .water-bg { position: absolute; bottom: 0; width: 200%; height: 60%; background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 10%, transparent 20%); background-size: 100px 100px; animation: moveWater 10s linear infinite; z-index: 1; pointer-events: none; }
 
-        @keyframes moveWater {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        @keyframes moveWater { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        .ui-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 100;
-            pointer-events: none;
-        }
+        .ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; pointer-events: none; }
 
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            pointer-events: auto;
-        }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; pointer-events: auto; }
 
-        .stats-box {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 20px;
-            padding: 10px 20px;
-            display: flex;
-            gap: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border: 3px solid white;
-        }
+        .stats-box { background: rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 10px 20px; display: flex; gap: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 3px solid white; }
 
-        .stat-item {
-            font-size: 1.2rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #d946ef;
-        }
+        .stat-item { font-size: 1.2rem; font-weight: bold; display: flex; align-items: center; gap: 8px; color: #d946ef; }
 
         .stat-item span.value { color: #2563eb; font-size: 1.4rem; }
 
-        .controls {
-            display: flex;
-            gap: 10px;
-        }
+        .controls { display: flex; gap: 10px; }
 
-        .btn-icon {
-            background: white;
-            border: none;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: transform 0.2s, background 0.2s;
-        }
+        .btn-icon { background: white; border: none; border-radius: 50%; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.2s; }
 
         .btn-icon:hover { transform: scale(1.1); }
-        .btn-icon:active { transform: scale(0.95); }
-        .btn-icon svg { width: 24px; height: 24px; fill: #4b5563; }
 
-        #play-area {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
-        }
+        #play-area { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
 
-        #question-container {
-            position: absolute;
-            top: 15vh;
-            width: 100%;
-            text-align: center;
-            pointer-events: none;
-        }
+        #question-container { position: absolute; top: 15vh; width: 100%; text-align: center; pointer-events: none; }
 
-        #question-box {
-            display: inline-block;
-            background: #fff;
-            padding: 15px 40px;
-            border-radius: 30px;
-            font-size: 3rem;
-            font-weight: bold;
-            color: #ec4899;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            border: 5px solid #fbcfe8;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
-        }
+        #question-box { display: inline-block; background: #fff; padding: 15px 40px; border-radius: 30px; font-size: 3rem; font-weight: bold; color: #ec4899; box-shadow: 0 10px 20px rgba(0,0,0,0.15); border: 5px solid #fbcfe8; }
 
-        #pads-container {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            transform: translateY(-50%);
-            display: flex;
-            justify-content: center;
-            gap: 3vw;
-            padding: 20px;
-            flex-wrap: wrap;
-        }
+        #pads-container { position: absolute; top: 50%; left: 0; width: 100%; transform: translateY(-50%); display: flex; justify-content: center; gap: 3vw; padding: 20px; flex-wrap: wrap; }
 
-        .pad-wrapper {
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.2s;
-            animation: float 3s ease-in-out infinite;
-        }
+        .pad-wrapper { position: relative; cursor: pointer; animation: float 3s ease-in-out infinite; }
 
-        .pad-wrapper:hover { transform: scale(1.05); }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        .pad-wrapper:nth-child(2) { animation-delay: 0.5s; }
-        .pad-wrapper:nth-child(3) { animation-delay: 1s; }
-        .pad-wrapper:nth-child(4) { animation-delay: 1.5s; }
+        .pad-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; font-weight: bold; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+        #frog { position: absolute; bottom: 8vh; left: 50%; width: 80px; height: 80px; transform: translateX(-50%); z-index: 20; transition: transform 0.3s; }
 
-        .pad-svg { width: 120px; height: 60px; }
-
-        .pad-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2rem;
-            font-weight: bold;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-            pointer-events: none;
-        }
-
-        #frog-start-pad {
-            position: absolute;
-            bottom: 5vh;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 70px;
-        }
-
-        #frog {
-            position: absolute;
-            bottom: 8vh;
-            left: 50%;
-            width: 80px;
-            height: 80px;
-            transform: translateX(-50%);
-            z-index: 20;
-        }
-
-        .screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 200;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        .screen.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-box {
-            background: white;
-            padding: 40px;
-            border-radius: 30px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            border: 8px solid var(--water-color);
-            max-width: 90%;
-            width: 500px;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .game-logo {
-            width: 100%;
-            max-width: 380px;
-            height: auto;
-            margin-bottom: 15px;
-            filter: drop-shadow(0px 10px 8px rgba(0,0,0,0.25));
-            animation: floatLogo 3s ease-in-out infinite;
-        }
-
-        @keyframes floatLogo {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        h1 { color: #10b981; font-size: 2.5rem; margin-bottom: 10px; text-shadow: 2px 2px 0 #d1fae5; }
-        h2 { color: #f59e0b; font-size: 2rem; margin-bottom: 20px; }
-        p { font-size: 1.2rem; color: #4b5563; margin-bottom: 10px; }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            font-family: inherit;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 8px 0 #047857, 0 15px 20px rgba(0,0,0,0.3);
-            transition: all 0.1s;
-        }
-
-        .btn-primary:active {
-            transform: translateY(8px);
-            box-shadow: 0 0 0 #047857, 0 5px 10px rgba(0,0,0,0.3);
-        }
-
-        #particles-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 50;
-            pointer-events: none;
-        }
-
-        .particle { position: absolute; border-radius: 50%; }
-        
-        .splash-particle { background-color: rgba(255, 255, 255, 0.8); }
-        
-        .star-particle {
-            background-color: #fbbf24;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-        }
-
-        #feedback-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 4rem;
-            font-weight: bold;
-            color: #fbbf24;
-            text-shadow: 3px 3px 0 #b45309, 0 0 20px rgba(255,255,255,0.8);
-            z-index: 150;
-            opacity: 0;
-            pointer-events: none;
-            text-align: center;
-        }
-
-        @media (orientation: portrait) {
-            #pads-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-            .pad-wrapper { transform: scale(1.2); margin: 10px; }
-        }
+        .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 200; opacity: 0; pointer-events: none; }
+        .screen.active { opacity: 1; pointer-events: auto; }
+        .modal-box { background: white; padding: 40px; border-radius: 30px; text-align: center; width: 500px; }
+        .game-logo { width: 100%; max-width: 300px; margin-bottom: 20px; }
+        .btn-primary { background: #10b981; color: white; border: none; padding: 15px 40px; font-size: 1.5rem; border-radius: 50px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -345,102 +70,71 @@
         <div class="ui-layer">
             <div class="top-bar">
                 <div class="stats-box">
-                    <div class="stat-item" id="score-display">Skor: <span class="value">0</span></div>
-                    <div class="stat-item" id="lives-display">Nyawa: <span class="value" id="hearts-container">❤️❤️❤️</span></div>
-                </div>
-                <div class="controls">
-                    <button class="btn-icon" id="btn-audio" title="Audio">
-                        <svg id="icon-audio-off" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
-                        <svg id="icon-audio-on" viewBox="0 0 24 24" style="display:none;"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-                    </button>
-                    <button class="btn-icon" id="btn-fullscreen" title="Layar Penuh"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+                    <div class="stat-item">Skor: <span class="value" id="score-val">0</span></div>
                 </div>
             </div>
         </div>
 
         <div id="play-area">
-            <div id="question-container"><div id="question-box">5 × 5</div></div>
+            <div id="question-container"><div id="question-box">? × ?</div></div>
             <div id="pads-container"></div>
-            <svg id="frog-start-pad" viewBox="0 0 100 50"><ellipse cx="50" cy="25" rx="48" ry="20" fill="var(--leaf-color)" stroke="var(--leaf-dark)" stroke-width="2"/></svg>
         </div>
 
         <div id="frog">
             <svg viewBox="0 0 100 100"><ellipse cx="50" cy="65" rx="35" ry="30" fill="#4ade80"/><ellipse cx="50" cy="40" rx="40" ry="25" fill="#4ade80"/><circle cx="25" cy="22" r="10" fill="#fff"/><circle cx="75" cy="22" r="10" fill="#fff"/></svg>
         </div>
 
-        <div id="particles-container"></div>
-        <div id="feedback-text">Hebat!</div>
-
         <div class="screen active" id="start-screen">
             <div class="modal-box">
-                <img src="https://imgur.com/ImM0Tg7.png" alt="Logo" class="game-logo">
+                <img src="https://imgur.com/ImM0Tg7.png" class="game-logo">
                 <button class="btn-primary" id="btn-start">MULAI MAIN</button>
-            </div>
-        </div>
-
-        <div class="screen" id="game-over-screen">
-            <div class="modal-box">
-                <h2>Selesai!</h2>
-                <button class="btn-primary" id="btn-restart">MAIN LAGI</button>
             </div>
         </div>
     </div>
 
     <script>
-        let score = 0, lives = 3, isAnimating = false, isAudioEnabled = false;
-        let audioCtx, bgmNode;
+        let score = 0, currentAnswer = 0;
+        const scoreVal = document.getElementById('score-val');
+        const padsContainer = document.getElementById('pads-container');
+        const questionBox = document.getElementById('question-box');
 
-        function initAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-        }
+        function generateQuestion() {
+            padsContainer.innerHTML = '';
+            const a = Math.floor(Math.random() * 9) + 1;
+            const b = Math.floor(Math.random() * 9) + 1;
+            currentAnswer = a * b;
+            questionBox.textContent = `${a} × ${b}`;
 
-        // BGM Generator (Looping melodi sederhana)
-        function playBGM() {
-            if (!isAudioEnabled || bgmNode) return;
-            
-            bgmNode = audioCtx.createGain();
-            bgmNode.gain.value = 0.05; // Volume rendah agar tidak mengganggu
-            bgmNode.connect(audioCtx.destination);
-
-            const notes = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5
-            let i = 0;
-            
-            setInterval(() => {
-                if(!isAudioEnabled) return;
-                const osc = audioCtx.createOscillator();
-                osc.type = 'sine';
-                osc.frequency.value = notes[i % notes.length];
-                osc.connect(bgmNode);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.4);
-                i++;
-            }, 600);
-        }
-
-        function startGame() {
-            score = 0; lives = 3; isAnimating = false;
-            if (isAudioEnabled) { initAudio(); playBGM(); }
-            startScreen.classList.remove('active');
-            gameOverScreen.classList.remove('active');
-            generateQuestion();
-        }
-
-        // ... (Fungsi generateQuestion, handlePadClick, dll tetap sama)
-        // Pastikan panggil generateQuestion() dan updateUI() untuk memulai.
-        document.getElementById('btn-start').addEventListener('click', startGame);
-        document.getElementById('btn-restart').addEventListener('click', startGame);
-        document.getElementById('btn-audio').addEventListener('click', () => {
-            isAudioEnabled = !isAudioEnabled;
-            if (isAudioEnabled) {
-                initAudio();
-                playBGM();
-                document.getElementById('icon-audio-off').style.display = 'none';
-                document.getElementById('icon-audio-on').style.display = 'block';
-            } else {
-                location.reload(); // Reset audio dengan refresh simpel
+            const options = [currentAnswer];
+            while(options.length < 4) {
+                let wrong = Math.floor(Math.random() * 81) + 1;
+                if(!options.includes(wrong)) options.push(wrong);
             }
-        });
+            options.sort(() => Math.random() - 0.5);
+
+            options.forEach(opt => {
+                const pad = document.createElement('div');
+                pad.className = 'pad-wrapper';
+                pad.innerHTML = `<svg width="120" height="60"><ellipse cx="60" cy="30" rx="55" ry="25" fill="#32cd32"/></svg><div class="pad-text">${opt}</div>`;
+                pad.onclick = () => checkAnswer(opt);
+                padsContainer.appendChild(pad);
+            });
+        }
+
+        function checkAnswer(val) {
+            if(val === currentAnswer) {
+                score += 10;
+                scoreVal.textContent = score;
+                generateQuestion();
+            } else {
+                alert("Salah! Coba lagi.");
+            }
+        }
+
+        document.getElementById('btn-start').onclick = () => {
+            document.getElementById('start-screen').classList.remove('active');
+            generateQuestion();
+        };
     </script>
 </body>
 </html>
